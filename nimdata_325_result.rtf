@@ -36,6 +36,8 @@ The following object is masked from \'91package:dplyr\'92:\
 > nimdata_325 <- read_excel("~/Downloads/nimdata_325.xlsx")\
 > View(nimdata_325)                                                                                     \
 > view(nimdata_325)\
+
+
 > str(nimdata_325) # explore the structure of the dataset in brief\
 tibble [325 \'d7 24] (S3: tbl_df/tbl/data.frame)\
  $ Weight                  : num [1:325] 69.2 80.3 60 76 102.8 ...\
@@ -62,6 +64,8 @@ tibble [325 \'d7 24] (S3: tbl_df/tbl/data.frame)\
  $ nback_2                 : num [1:325] 5 7 3 7 6 4 7 5 1 6 ...\
  $ dvt_tt                  : num [1:325] 290 228 209 236 365 401 329 360 407 340 ...\
  $ dvt_err                 : num [1:325] 3 3 17 7 39 9 7 19 10 2 ...\
+
+
 > describe(nimdata_325) #descriptive stats or the dataset in brief\
                           vars   n   mean    sd median trimmed   mad    min    max  range  skew kurtosis\
 Weight                       1 325  75.88 10.76  74.80   75.22  9.49  50.00 106.00  56.00  0.55    -0.01\
@@ -113,6 +117,8 @@ nback_1                   0.09\
 nback_2                   0.10\
 dvt_tt                    4.74\
 dvt_err                   0.60\
+
+
 > # first we check for normality assumptions\
 > shapiro.test(nimdata_325$moca) # using shapiro tests\
 \
@@ -156,6 +162,8 @@ W = 0.98967, p-value = 0.02143\
 data:  nimdata_325$animal_names\
 W = 0.98774, p-value = 0.00754\
 \
+
+
 > # and then a histogram\
 > ggplot(nimdata_325, aes(x = moca)) + # FOR MOCA scores\
 +   geom_histogram(aes(y = after_stat(density)),\
@@ -169,6 +177,9 @@ W = 0.98774, p-value = 0.00754\
 +   geom_density(color = "black") +\
 +   theme_minimal() +\
 +   labs(x = "BMI Values", y = "Density", title = "BMI Histogram and Density Plot")\
+
+
+
 > # first we apply a simple correlation between BMI and moca scores\
 > bmi_moca_cor <- nimdata_325 %>% \
 +   summarise(\
@@ -181,6 +192,8 @@ W = 0.98774, p-value = 0.00754\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0558   0.147\
+
+
 > # Complex figure Test Copy and BMI correlation\
 > bmi_cftc_cor <- nimdata_325 %>% \
 +   summarise(\
@@ -193,6 +206,8 @@ W = 0.98774, p-value = 0.00754\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0156   0.686\
+
+
 > # Complex figure Immediate Recall and BMI correlation\
 > bmi_cfir_cor <- nimdata_325 %>% \
 +   summarise(\
@@ -205,6 +220,8 @@ W = 0.98774, p-value = 0.00754\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0655  0.0831\
+
+
 > # Complex figure Delayed Recall and BMI correlation\
 > bmi_cfdr_cor <- nimdata_325 %>% \
 +   summarise(\
@@ -217,6 +234,8 @@ W = 0.98774, p-value = 0.00754\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0670  0.0766\
+
+
 > # Animal Names Test and BMI correlation\
 > bmi_animal_cor <- nimdata_325 %>% \
 +   summarise(\
@@ -229,11 +248,15 @@ W = 0.98774, p-value = 0.00754\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0137   0.723\
+
+
 > # 1st method: To assess the stroop test scores, which has two components: Stroop_time and Stroop_errors, we first standardize this score and combine it\
 > nimdata_325 <- nimdata_325 %>% \
 +   mutate( # scale() is used to calculate Z scores\
 +     stroop_composite = scale(stroop_tt) * scale(stroop_err) # we specifically multiply the data since these two scores are generally uncorrelated, and tie together to increase or decrease accuracy\
 +   )\
+
+
 > stroop_bmi_z_corr <- nimdata_325 %>% \
 +   summarise(\
 +     N = n(),\
@@ -250,6 +273,8 @@ Caused by warning in `cor.test.default()`:\
       N correlation[,1] p_value\
   <int>           <dbl>   <dbl>\
 1   325          0.0401   0.472\
+
+
 > # 2nd method: using Inverse Efficiency Score (IES). Very useful for speed-accuracy trade-off psychological scores\
 > nimdata_325 <- nimdata_325 %>% \
 +   mutate(stroop_ies = stroop_tt / (1 + stroop_err)) # stroop_ies = stroop inverse efficiency score\
@@ -269,6 +294,8 @@ Caused by warning in `cor.test.default()`:\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325      0.0822   0.139\
+
+
 > # now we move to nBack tests (1 and 2)\
 > bmi_nback1_cor <- nimdata_325 %>% \
 +   summarise(\
@@ -286,6 +313,8 @@ Caused by warning in `cor.test.default()`:\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0492   0.376\
+
+
 > bmi_nback2_cor <- nimdata_325 %>% \
 +   summarise(\
 +     N = n(),\
@@ -302,6 +331,8 @@ Caused by warning in `cor.test.default()`:\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0869   0.118\
+
+
 > nimdata_325 <- nimdata_325 %>% \
 +   mutate( # scale() is used to calculate Z scores\
 +     dvt_composite = scale(dvt_tt) * scale(dvt_err) # we specifically multiply the data since these two scores are generally uncorrelated, and tie together to increase or decrease accuracy\
@@ -322,6 +353,8 @@ Caused by warning in `cor.test.default()`:\
       N correlation[,1] p_value\
   <int>           <dbl>   <dbl>\
 1   325         -0.0519   0.351\
+
+
 > # Now we use Inverse Efficiency Score calculation for DVT scores\
 > nimdata_325 <- nimdata_325 %>% \
 +   mutate(dvt_ies = dvt_tt/(dvt_err + 1))\
@@ -341,6 +374,8 @@ Caused by warning in `cor.test.default()`:\
       N correlation p_value\
   <int>       <dbl>   <dbl>\
 1   325     -0.0365   0.512\
+
+
 > nimdata_325 %>% \
 +   group_by(edu) %>% \
 +   summarise(\
@@ -355,7 +390,12 @@ Caused by warning in `cor.test.default()`:\
 2 high_school    71    0.000419  0.996 \
 3 inter          52   -0.189     0.0533\
 4 prof           50   -0.0610    0.549 \
+
+
+
+
 > # We take the next step and assess **SUBGROUP ANALYSIS BY OCCUPATION**\
+> # to do it by education, simply replace occu with edu, and run the analysis again\
 > nimdata_325 %>% \
 +   group_by(occu) %>% \
 +   summarise(\
@@ -376,6 +416,9 @@ There was 1 warning in `summarise()`.\
 \uc0\u8505  In group 2: `occu = "associates/clerks"`.\
 Caused by warning in `cor.test.default()`:\
 ! Cannot compute exact p-value with ties \
+
+
+
 > # first we do plotting between BMI and MOCA for subgroups of Education\
 > nimdata_325 %>% \
 +   ggplot(aes(x = BMI, y = moca)) +\
