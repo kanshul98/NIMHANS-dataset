@@ -376,20 +376,150 @@ Caused by warning in `cor.test.default()`:\
 1   325     -0.0365   0.512\
 
 
-> nimdata_325 %>% \
-+   group_by(edu) %>% \
-+   summarise(\
-+     N = n(),\
-+     correlation = cor(BMI, moca, method = "kendall"),\
-+     p_value = cor.test(BMI, moca, method = "kendall")$p.value\
-+   )\
-# A tibble: 4 \'d7 4\
-  edu             N correlation p_value\
-  <chr>       <int>       <dbl>   <dbl>\
-1 grad          152   -0.0313    0.582 \
-2 high_school    71    0.000419  0.996 \
-3 inter          52   -0.189     0.0533\
-4 prof           50   -0.0610    0.549 \
+# So till now we have calculate correlations for all neuropsychological tests with BMI's
+# We take the next step and assess **SUBGROUP ANALYSIS BY EDUCATION**
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, moca, method = "kendall"),
++     p_value = cor.test(BMI, moca, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation p_value
+  <chr>       <int>       <dbl>   <dbl>
+1 grad          152   -0.0313    0.582 
+2 high_school    71    0.000419  0.996 
+3 inter          52   -0.189     0.0533
+4 prof           50   -0.0610    0.549 
+
+> # Subgroup Analysis by Education for CF_TC
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, cf_tc, method = "kendall"),
++     p_value = cor.test(BMI, cf_tc, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation p_value
+  <chr>       <int>       <dbl>   <dbl>
+1 grad          152     -0.0599 0.293  
+2 high_school    71      0.222  0.00759
+3 inter          52     -0.313  0.00150
+4 prof           50      0.0186 0.858  
+
+> # Subgroup Analysis by Education for CF_IR
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, cf_ir, method = "kendall"),
++     p_value = cor.test(BMI, cf_ir, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation p_value
+  <chr>       <int>       <dbl>   <dbl>
+1 grad          152     -0.0731  0.189 
+2 high_school    71      0.0859  0.297 
+3 inter          52     -0.244   0.0119
+4 prof           50     -0.0635  0.524 
+
+> # Subgroup Analysis by Education for CF_DR
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, cf_dr, method = "kendall"),
++     p_value = cor.test(BMI, cf_dr, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation p_value
+  <chr>       <int>       <dbl>   <dbl>
+1 grad          152     -0.0501 0.368  
+2 high_school    71      0.119  0.151  
+3 inter          52     -0.260  0.00748
+4 prof           50     -0.154  0.123  
+
+> # Subgroup Analysis by Education for Animal Names Test
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, animal_names, method = "kendall"),
++     p_value = cor.test(BMI, animal_names, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation p_value
+  <chr>       <int>       <dbl>   <dbl>
+1 grad          152    -0.0363    0.525
+2 high_school    71     0.00127   0.988
+3 inter          52    -0.0884    0.373
+4 prof           50     0.0554    0.584
+
+> # Subgroup Analysis by Education for Stroop Composite Score
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, stroop_composite, method = "kendall"),
++     p_value = cor.test(BMI, stroop_composite, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation[,1] p_value
+  <chr>       <int>           <dbl>   <dbl>
+1 grad          152          0.0758   0.166
+2 high_school    71         -0.107    0.187
+3 inter          52          0.121    0.204
+4 prof           50          0.0359   0.713
+
+> # Subgroup Analysis by Education for DVT Composite Score
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, dvt_composite, method = "kendall"),
++     p_value = cor.test(BMI, dvt_composite, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation[,1] p_value
+  <chr>       <int>           <dbl>   <dbl>
+1 grad          152        -0.00924   0.866
+2 high_school    71         0.0225    0.781
+3 inter          52        -0.154     0.107
+4 prof           50        -0.152     0.120
+
+> # Subgroup Analysis by Education for Stroop IES
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, stroop_ies, method = "kendall"),
++     p_value = cor.test(BMI, stroop_ies, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation p_value
+  <chr>       <int>       <dbl>   <dbl>
+1 grad          152      0.0371   0.497
+2 high_school    71      0.128    0.114
+3 inter          52      0.0650   0.497
+4 prof           50      0.0384   0.694
+
+> # Subgroup Analysis by Education for DVT IES
+> nimdata_325 %>% 
++   group_by(edu) %>% 
++   summarise(
++     N = n(),
++     correlation = cor(BMI, dvt_ies, method = "kendall"),
++     p_value = cor.test(BMI, dvt_ies, method = "kendall")$p.value
++   )
+# A tibble: 4 × 4
+  edu             N correlation p_value
+  <chr>       <int>       <dbl>   <dbl>
+1 grad          152     -0.0533   0.330
+2 high_school    71      0.0745   0.358
+3 inter          52     -0.0196   0.837
+4 prof           50     -0.107    0.273
 
 
 
