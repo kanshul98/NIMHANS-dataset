@@ -162,7 +162,6 @@ print(dvt_ies_result)
 
 
 
-
 # So till now we have calculate correlations for all neuropsychological tests with BMI's
 # We take the next step and assess **SUBGROUP ANALYSIS BY EDUCATION**
 
@@ -174,6 +173,78 @@ nimdata_325 %>%
     p_value = cor.test(BMI, moca, method = "kendall")$p.value
   )
 # we replace the 'moca' value with different psychological tests to calculate accordingly
+
+# Subgroup Analysis by Education for CF_TC
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, cf_tc, method = "kendall"),
+    p_value = cor.test(BMI, cf_tc, method = "kendall")$p.value
+  )
+
+# Subgroup Analysis by Education for CF_IR
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, cf_ir, method = "kendall"),
+    p_value = cor.test(BMI, cf_ir, method = "kendall")$p.value
+  )
+
+# Subgroup Analysis by Education for CF_DR
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, cf_dr, method = "kendall"),
+    p_value = cor.test(BMI, cf_dr, method = "kendall")$p.value
+  )
+
+# Subgroup Analysis by Education for Animal Names Test
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, animal_names, method = "kendall"),
+    p_value = cor.test(BMI, animal_names, method = "kendall")$p.value
+  )
+
+# Subgroup Analysis by Education for Stroop Composite Score
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, stroop_composite, method = "kendall"),
+    p_value = cor.test(BMI, stroop_composite, method = "kendall")$p.value
+  )
+
+# Subgroup Analysis by Education for DVT Composite Score
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, dvt_composite, method = "kendall"),
+    p_value = cor.test(BMI, dvt_composite, method = "kendall")$p.value
+  )
+
+# Subgroup Analysis by Education for Stroop IES
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, stroop_ies, method = "kendall"),
+    p_value = cor.test(BMI, stroop_ies, method = "kendall")$p.value
+  )
+
+# Subgroup Analysis by Education for DVT IES
+nimdata_325 %>% 
+  group_by(edu) %>% 
+  summarise(
+    N = n(),
+    correlation = cor(BMI, dvt_ies, method = "kendall"),
+    p_value = cor.test(BMI, dvt_ies, method = "kendall")$p.value
+  )
 
 
 
